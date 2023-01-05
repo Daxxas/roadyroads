@@ -1,3 +1,4 @@
+import processing.sound.*;
 import processing.serial.*;
 
 Serial myPort;
@@ -5,6 +6,7 @@ Road road;
 Car car;
 Obstacles obstacles;
 GameManager gameManager;
+SoundManager soundManager;
 String val;
 int roadInputTarget;
 int carInputTarget;
@@ -19,28 +21,30 @@ void settings() {
 }
 
 void setup() {
-  myPort = new Serial(this, "COM4", 9600);
+  //myPort = new Serial(this, "COM4", 9600);
   frameRate(60);
   gameManager = new GameManager();
   road = new Road(false);
   car = new Car(false);
   car.setup();
   obstacles = new Obstacles(false);
+  SoundFile music = new SoundFile(this, "InitialEChiptuneVersion.wav");
+  SoundFile carCrash = new SoundFile(this, "CarCrash.wav");
+  soundManager = new SoundManager(music, carCrash);
 }
 
 void draw() { 
-  if ( myPort.available() > 0) 
-  {  // If data is available,
-    val = myPort.readStringUntil('\n');         // read it and store it in val
-    if(val != null) {
-      String[] splitedInput = val.split("\\s+");
-      roadInputTarget = Integer.parseInt(splitedInput[0]);
-      carInputTarget = Integer.parseInt(splitedInput[1]);
-    }
-  } 
+  //if ( myPort.available() > 0) 
+  //{  // If data is available,
+  //  val = myPort.readStringUntil('\n');         // read it and store it in val
+  //  if(val != null) {
+  //    String[] splitedInput = val.split("\\s+");
+  //    roadInputTarget = Integer.parseInt(splitedInput[0]);
+  //    carInputTarget = Integer.parseInt(splitedInput[1]);
+  //  }
+  //} 
   
   background(backgroundColor);
-  
   
   if(gameManager.gameStarted) {
     if(!gameManager.GameEnded()) {
@@ -66,6 +70,8 @@ void draw() {
     if(gameManager.GameEnded() && !gameManager.gameEndMode) {
       gameManager.timeEnd = millis();
       gameManager.gameEndMode = true;
+      soundManager.StopMusic();
+      soundManager.PlayCrash();
     }
     
     if(gameManager.gameEndMode && millis() > gameManager.timeEnd + gameManager.timeEndDuration) {
@@ -127,6 +133,8 @@ class GameManager {
       else if(millis() > matchingTime + matchingDuration) {
         gameStarted = true;
         startTime = millis();
+        soundManager.StartMusic();
+
       }
       gameStarting = true;
       
