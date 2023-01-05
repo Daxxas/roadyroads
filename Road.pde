@@ -25,6 +25,7 @@ class Road {
   public void Reset() {
     points.clear();
     pointPlacementInterval = localSave.pointPlacementInterval;
+    road.seperationX = localSave.seperationX;
     roadWidth = localSave.roadWidth;
     drag = localSave.drag;
   }

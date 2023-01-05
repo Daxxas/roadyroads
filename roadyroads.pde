@@ -11,8 +11,11 @@ String val;
 int roadInputTarget;
 int carInputTarget;
 
-final int height = 1000;
-final int width = 1000;
+final int height = 900;
+final int width = 1500;
+
+final int inputMax = 900;
+
 color backgroundColor = color(100, 0, 255);
 color obstaclesColor = color(200, 50, 100);
 
@@ -21,7 +24,7 @@ void settings() {
 }
 
 void setup() {
-  //myPort = new Serial(this, "COM4", 9600);
+  myPort = new Serial(this, "COM4", 9600);
   frameRate(60);
   gameManager = new GameManager();
   road = new Road(false);
@@ -34,15 +37,15 @@ void setup() {
 }
 
 void draw() { 
-  //if ( myPort.available() > 0) 
-  //{  // If data is available,
-  //  val = myPort.readStringUntil('\n');         // read it and store it in val
-  //  if(val != null) {
-  //    String[] splitedInput = val.split("\\s+");
-  //    roadInputTarget = Integer.parseInt(splitedInput[0]);
-  //    carInputTarget = Integer.parseInt(splitedInput[1]);
-  //  }
-  //} 
+  if ( myPort.available() > 0) 
+  {  // If data is available,
+    val = myPort.readStringUntil('\n');         // read it and store it in val
+    if(val != null) {
+      String[] splitedInput = val.split("\\s+");
+      roadInputTarget = (Integer.parseInt(splitedInput[0])*height)/inputMax;
+      carInputTarget = (Integer.parseInt(splitedInput[1])*height)/inputMax;
+    }
+  } 
   
   background(backgroundColor);
   
@@ -117,31 +120,36 @@ class GameManager {
   }
   
   public void Update() {
-            if(GameDuration() > 30000) {
-        road.roadWidth = 85;
-        obstacles.obstacleWidth = 370;
-      }
-      
-      else if(GameDuration() > 25000) {
-          road.roadWidth = 100;
-          obstacles.obstacleWidth = 340;
-        }
-      
-        else if(GameDuration() > 20000) {
-            road.roadWidth = 125;
-            road.drag = 0.02f;
-            obstacles.obstacleWidth = 310;
-          }
-        
-          else if(GameDuration() > 15000) {
-            road.roadWidth = 155;
-            obstacles.obstacleWidth = 280;
-          }
-          
-            else if(GameDuration() > 10000) {
-              road.roadWidth = 180;
-              obstacles.obstacleWidth = 250;
-            }
+    if(GameDuration() > 30000) {
+      road.roadWidth = 85;
+      obstacles.obstacleWidth = 370;
+    }
+    
+    else if(GameDuration() > 30000) {
+      road.roadWidth = 100;
+      obstacles.obstaclesScrollingSpeed = 7;
+      road.seperationX = 7;
+      obstacles.obstacleWidth = 340;
+    }
+    else if(GameDuration() > 20000) {
+      road.roadWidth = 125;
+      //road.drag = 0.02f;
+      obstacles.obstaclesScrollingSpeed = 6;
+      road.seperationX = 6;
+      obstacles.generationInterval = 2500;
+      obstacles.obstaclesCount = 2;
+
+      obstacles.obstacleWidth = 310;
+    }
+    else if(GameDuration() > 15000) {
+      road.roadWidth = 155;
+      obstacles.obstacleWidth = 280;
+    }
+    
+    else if(GameDuration() > 10000) {
+      road.roadWidth = 180;
+      obstacles.obstacleWidth = 250;
+    }
   }
   
   public void Draw() {
