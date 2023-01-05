@@ -1,5 +1,6 @@
 class Car {
  
+  
   PImage playerSprite;
   float carScale = 40;
   
@@ -9,6 +10,16 @@ class Car {
   float carWidth = 20;
   
   float drag = 0.09;
+  
+  private Car localSave;
+  Car(boolean isSave) {
+    if(!isSave)
+      localSave = new Car(true);
+  }
+  
+  public void Reset() {
+    drag = localSave.drag;
+  }
   
   public void setup() {
     playerSprite = loadImage("car.png");

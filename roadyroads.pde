@@ -22,10 +22,10 @@ void setup() {
   myPort = new Serial(this, "COM4", 9600);
   frameRate(60);
   gameManager = new GameManager();
-  road = new Road();
-  car = new Car();
+  road = new Road(false);
+  car = new Car(false);
   car.setup();
-  obstacles = new Obstacles();
+  obstacles = new Obstacles(false);
 }
 
 void draw() {
@@ -63,11 +63,14 @@ void draw() {
   gameManager.Draw();
   
   
-      
-      if(gameManager.GameEnded()) {
-        gameManager.ResetGame(); 
-      }
-
+    if(gameManager.GameEnded() && !gameManager.gameEndMode) {
+      gameManager.timeEnd = millis();
+      gameManager.gameEndMode = true;
+    }
+    
+    if(gameManager.gameEndMode && millis() > gameManager.timeEnd + gameManager.timeEndDuration) {
+      gameManager.ResetGame();
+    }
 }
 
 
@@ -77,6 +80,7 @@ class GameManager {
   
   boolean gameStarted = false;
   boolean gameStarting = false;
+  boolean gameEndMode = false;
   
   boolean carLost = false;
   boolean roadLost = false;
@@ -84,6 +88,8 @@ class GameManager {
   float matchingTime = 0;
   float matchingDuration = 3000; // in ms
   
+  float timeEnd = 0;
+  float timeEndDuration = 5000;
   
   public boolean GameEnded() {
     return carLost || roadLost; 
@@ -94,13 +100,14 @@ class GameManager {
   }
   
   public void ResetGame() {
-    car = new Car();
-    road = new Road();
-    obstacles = new Obstacles();
+    gameEndMode = false;
     gameStarting = false;
     gameStarted = false;
     carLost = false;
     roadLost = false;
+    car.Reset();
+    obstacles.Reset();
+    road.Reset();
   }
   
   public void Update() {

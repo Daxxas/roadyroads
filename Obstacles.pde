@@ -10,6 +10,23 @@ class Obstacles {
   
   ArrayList<Vector2> obstacles = new ArrayList();
   
+    
+  private Obstacles localSave;
+  Obstacles(boolean isSave) {
+    if(!isSave)
+      localSave = new Obstacles(true);
+  }
+  
+  
+  public void Reset() {
+    obstacles.clear();
+    generationInterval = localSave.generationInterval;
+    obstacleWidth = localSave.obstacleWidth;
+    obstaclesScrollingSpeed = localSave.obstaclesScrollingSpeed;
+    obstaclesCount = localSave.obstaclesCount;
+    wallStartPos = localSave.wallStartPos;
+  }
+  
   public void Move() {
     if(wallStartPos > 0) {
       wallStartPos -= obstaclesScrollingSpeed;

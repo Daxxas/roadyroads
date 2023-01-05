@@ -14,6 +14,21 @@ class Road {
   float targetY = height/2;
   float drag = 0.01f;
   
+    
+    
+  private Road localSave;
+  Road(boolean isSave) {
+    if(!isSave)
+      localSave = new Road(true);
+  }
+  
+  public void Reset() {
+    points.clear();
+    pointPlacementInterval = localSave.pointPlacementInterval;
+    roadWidth = localSave.roadWidth;
+    drag = localSave.drag;
+  }
+  
   public void Draw(){
     stroke(255);
     for(int i = 0; i < points.size()-1; i++) {
