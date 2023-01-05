@@ -43,7 +43,7 @@ class Obstacles {
     fill(obstaclesColor);
     stroke(obstaclesColor);
     rect(wallStartPos, 0, width, wallWidth);
-    rect(wallStartPos, height-wallWidth-(wallWidth/2), width, wallWidth);
+    rect(wallStartPos, height-wallWidth, width, wallWidth);
     
     if(millis() > lastObstacleTime + generationInterval) {
       lastObstacleTime = millis();

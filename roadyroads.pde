@@ -16,8 +16,9 @@ final int width = 1500;
 
 final int inputMax = 900;
 
-color backgroundColor = color(100, 0, 255);
-color obstaclesColor = color(200, 50, 100);
+color backgroundColor = color(248, 189, 196);
+color obstaclesColor = color(246, 91, 227);
+color textColor = color(246, 121, 229);
 
 void settings() {
     size(width, height);
@@ -167,7 +168,7 @@ class GameManager {
       }
       gameStarting = true;
       
-      fill(0, 408, 612);
+      fill(textColor);
       textSize(80);
       float timerDelta = (matchingDuration-(millis() - matchingTime))/1000 ;
       text("Game Starting... " + timerDelta, 100, height/2); 
@@ -178,20 +179,20 @@ class GameManager {
     }
     
     if(!gameStarted && !gameStarting) {
-      fill(0, 408, 612);
+      fill(textColor);
       textSize(80);
       text("Align the road and the car", 60, height/2); 
     }
     
     if(carLost) {
-      fill(0, 408, 612);
+      fill(textColor);
       textSize(80);
       text("Car Lost !", 60, height/2); 
     }
     
     
     if(roadLost) {
-      fill(0, 408, 612);
+      fill(textColor);
       textSize(80);
       text("Road Lost !", 60, height/2); 
     }

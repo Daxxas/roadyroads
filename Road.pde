@@ -31,7 +31,7 @@ class Road {
   }
   
   public void Draw(){
-    stroke(255);
+    stroke(#DEF6CA);
     for(int i = 0; i < points.size()-1; i++) {
       strokeWeight(points.get(i).width);
       line(posX - seperationX * i, points.get(i).y, posX - seperationX * (i+1), points.get(i+1).y);
