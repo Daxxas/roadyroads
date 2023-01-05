@@ -117,10 +117,31 @@ class GameManager {
   }
   
   public void Update() {
-      if(GameDuration() > 1000) {
-        road.roadWidth = 150;
-        obstacles.obstacleWidth = 250;
+            if(GameDuration() > 30000) {
+        road.roadWidth = 85;
+        obstacles.obstacleWidth = 370;
       }
+      
+      else if(GameDuration() > 25000) {
+          road.roadWidth = 100;
+          obstacles.obstacleWidth = 340;
+        }
+      
+        else if(GameDuration() > 20000) {
+            road.roadWidth = 125;
+            road.drag = 0.02f;
+            obstacles.obstacleWidth = 310;
+          }
+        
+          else if(GameDuration() > 15000) {
+            road.roadWidth = 155;
+            obstacles.obstacleWidth = 280;
+          }
+          
+            else if(GameDuration() > 10000) {
+              road.roadWidth = 180;
+              obstacles.obstacleWidth = 250;
+            }
   }
   
   public void Draw() {
