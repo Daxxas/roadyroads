@@ -28,7 +28,7 @@ void setup() {
   obstacles = new Obstacles(false);
 }
 
-void draw() {
+void draw() { 
   if ( myPort.available() > 0) 
   {  // If data is available,
     val = myPort.readStringUntil('\n');         // read it and store it in val
